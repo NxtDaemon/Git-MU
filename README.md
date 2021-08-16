@@ -1,6 +1,10 @@
 # Git-MU
 Git Management Utility for keeping repos up to date.
 
+<p align=center>
+  <img src="Git-MU.png" alt="My Shitty Logo :)" >
+</p>
+
 # Recommended Implementation 
 1. Use Cronjobs to run if you need bleeding-edge, use manual / periodic running via a shell spawn or something for standard usage 
 2. use git-credential manager, I dont see the point in remaking the wheel so using git-credential manager will mean private repos wont cause an issue 
