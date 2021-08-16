@@ -28,9 +28,9 @@ class MuTerminal():
         self.SetupAssets()
         self.Commands = { 
                          
-            "help" : {"Description" : "Get Infomation for commands (This Command)","Syntax" : "help <Command>", "Method" : self.GetHelp, "Positional" : False},
+            "help" : {"Description" : "Get Infomation for commands (This Command)","Syntax" : "help", "Method" : self.GetHelp, "Positional" : False},
             "update-all" : {"Description" : "Update all assets", "Syntax" : "update-all", "Method" : self.UpdateAll, "Positional" : False},
-            "update" : {"Description" : "update specific assets", "Syntax" : "update <Asset>", "Method" : self.Update, "Positional" : True},
+            "update" : {"Description" : "update specific assets", "Syntax" : "update <AssetNum>", "Method" : self.Update, "Positional" : True},
             "list" : {"Description" : "List all assets from asset.json file", "Syntax" : "list", "Method" : self.ListAssets,"Positional" : False},
             "asset" : {"Description" : "Get a specific asset", "Syntax" : "asset <AssetNum>", "Method" : self.GetAsset,"Positional" : True},
             "ban" : {"Description" : "Add assets to a BannedList", "Syntax" : "ban <AssetNum>", "Method" : self.BannedList,"Positional" : True},
