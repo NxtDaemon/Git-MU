@@ -1,9 +1,18 @@
 import os 
-import logging 
 import argparse
 import json
 from prettytable import PrettyTable
+import logging, coloredlogs
 
+# Create formatters
+DETAILED = logging.Formatter("%(asctime)-30s %(module)-15s %(levelname)-8s %funcName)-20s %(message)s")
+
+# Custom Logger
+logger = logging.getLogger(__name__)
+coloredlogs.install(logger=logger,level=logging.DEBUG)
+FileHandler = logging.FileHandler("Git-MU.log")
+FileHandler.setFormatter(DETAILED)
+logger.addHandler(FileHandler)
 
 Parser = argparse.ArgumentParser()
 Parser.add_argument("-A",help="Automatically Update All Assets",action='store_true')
@@ -12,9 +21,10 @@ Args = Parser.parse_args()
 
 class MuTerminal():
     
-    def __init__(self):
+    def __init__(self,logger):
+        self.logger = logger
         self.MU = "\033[1;32;40m" + "𝝁" + "\033[0m"
-        self.Assets = "" # Add Location For Assets.json here
+        self.Assets = "Assets.json" # Add Location For Assets.json here
         self.Commands = { 
                          
             "help" : {"Description" : "Get Infomation for commands (This Command)","Syntax" : "help <Command>", "Method" : self.GetHelp},
@@ -40,8 +50,8 @@ class MuTerminal():
             self.Commands.get(Command).get("Method")()
             
         except Exception as Err:
+            self.logger.error(f"{Err} Detected")
             print("Command Not Recognised ; use 'help' to see a list of commands")
-            
         
     def GetHelp(self):
         print("")
@@ -54,10 +64,8 @@ class MuTerminal():
         for _ in self.Commands.keys():
             CommandInfo = self.Commands.get(_)
             Table.add_row([_,CommandInfo["Description"],CommandInfo["Syntax"]])
-            
-
-        print(Table)
-        
+    
+        print(Table)    
         print("")
         
     def Update(self,Asset):
@@ -67,12 +75,16 @@ class MuTerminal():
         print("")
         
     def ListAssets(self):
-        print("")
+        with open(self.Assets,"r") as f:
+            Content = f.read()
+        self.JSON = json.loads(Content)
+        for _ in self.JSON["Paths"]:
+            print(f"    {_}")
         
 if __name__ == "__main__":
     if Args.A:
-        M = MuTerminal()
+        M = MuTerminal(logger)
         M.RunCommand("update-all")
     else:
-        M = MuTerminal()
+        M = MuTerminal(logger)
         M.Interactive()

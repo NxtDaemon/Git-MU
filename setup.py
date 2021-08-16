@@ -31,7 +31,7 @@ if ".TempCommandOutput" in os.listdir(os.getcwd()):
     
     JSON = json.dumps(JSON, indent=4)
     
-    with open("Assets.Json","w") as f:
+    with open("Assets.json","w") as f:
         f.write(JSON)
         
     os.remove(".TempCommandOutput")
