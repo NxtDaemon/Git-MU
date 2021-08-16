@@ -10,3 +10,18 @@ Git Management Utility for keeping repos up to date.
 2. use git-credential manager, I dont see the point in remaking the wheel so using git-credential manager will mean private repos wont cause an issue 
 3. remove any git repos that are managed by another source, this is due to possible errors if sections of code are updated without their counterparts
 4. Either ensure all repos require base user rights to update or escalate upon runtime via sudo
+
+# Commands 
+```
++------------+--------------------------------------------+-------------------+
+| Command    | Command Description                        | Syntax            |
++------------+--------------------------------------------+-------------------+
+| help       | Get Infomation for commands (This Command) | help              |
+| update-all | Update all assets                          | update-all        |
+| update     | update specific assets                     | update <AssetNum> |
+| list       | List all assets from asset.json file       | list              |
+| asset      | Get a specific asset                       | asset <AssetNum>  |
+| ban        | Add assets to a BannedList                 | ban <AssetNum>    |
+| banned     | List all banned assets                     | banned            |
++------------+--------------------------------------------+-------------------+
+```
