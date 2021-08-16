@@ -6,12 +6,23 @@ from prettytable import PrettyTable
 import logging, coloredlogs
 import requests
 
+# Written By NxtDaemon Any Issues or Additions you would like please contact me here https://nxtdaemon.xyz/contact
+#  __    __            __     _______                                                   
+# |  \  |  \          |  \   |       \                                                  
+# | ▓▓\ | ▓▓__    __ _| ▓▓_  | ▓▓▓▓▓▓▓\ ______   ______  ______ ____   ______  _______  
+# | ▓▓▓\| ▓▓  \  /  \   ▓▓ \ | ▓▓  | ▓▓|      \ /      \|      \    \ /      \|       \ 
+# | ▓▓▓▓\ ▓▓\▓▓\/  ▓▓\▓▓▓▓▓▓ | ▓▓  | ▓▓ \▓▓▓▓▓▓\  ▓▓▓▓▓▓\ ▓▓▓▓▓▓\▓▓▓▓\  ▓▓▓▓▓▓\ ▓▓▓▓▓▓▓\
+# | ▓▓\▓▓ ▓▓ >▓▓  ▓▓  | ▓▓ __| ▓▓  | ▓▓/      ▓▓ ▓▓    ▓▓ ▓▓ | ▓▓ | ▓▓ ▓▓  | ▓▓ ▓▓  | ▓▓
+# | ▓▓ \▓▓▓▓/  ▓▓▓▓\  | ▓▓|  \ ▓▓__/ ▓▓  ▓▓▓▓▓▓▓ ▓▓▓▓▓▓▓▓ ▓▓ | ▓▓ | ▓▓ ▓▓__/ ▓▓ ▓▓  | ▓▓
+# | ▓▓  \▓▓▓  ▓▓ \▓▓\  \▓▓  ▓▓ ▓▓    ▓▓\▓▓    ▓▓\▓▓     \ ▓▓ | ▓▓ | ▓▓\▓▓    ▓▓ ▓▓  | ▓▓ 
+#  \▓▓   \▓▓\▓▓   \▓▓   \▓▓▓▓ \▓▓▓▓▓▓▓  \▓▓▓▓▓▓▓ \▓▓▓▓▓▓▓\▓▓  \▓▓  \▓▓ \▓▓▓▓▓▓ \▓▓   \▓▓
+
 # Create formatters
 DETAILED = logging.Formatter("%(asctime)-30s %(module)-15s %(levelname)-8s %funcName)-20s %(message)s")
 
 # Custom Logger
 logger = logging.getLogger(__name__)
-coloredlogs.install(logger=logger,level=logging.WARNING) # Change this for Debugging
+coloredlogs.install(logger=logger,level=logging.DEBUG) # Change this for Debugging
 
 # Argparse for easy scripting
 Parser = argparse.ArgumentParser()
@@ -101,7 +112,10 @@ class MuTerminal():
                 logger.error(StdErr.strip("fatal:").strip("error:"))
             else: 
                 print(f"{list(reversed(Asset.split('/')))[1]} Updated")
-                
+        
+        except IndexError as Exc:
+            print(f"It Appears Asset At {AssetNum + 1} Does Not Exist")
+            
         except Exception as Exc:
             logger.debug(f"{Exc} Occured")
 
@@ -171,24 +185,32 @@ class MuTerminal():
             print(f"\033[1;32;40m   {str(c).zfill(2)} \033[0;34m{_}\033[0m")
             
     def GetAsset(self,AssetNum):
-            AssetNum = AssetNum[0]
-            print(f"\033[1;32;40m   {str(AssetNum).zfill(2)} \033[0;34m{self.Paths[int(AssetNum) - 1]}\033[0m")
+        try:
+            AssetNum = int(AssetNum[0]) - 1
+            print(f"\033[1;32;40m   {str(AssetNum).zfill(2)} \033[0;34m{self.Paths[AssetNum]}\033[0m")
+        
+        except IndexError as Exc:
+            print(f"It Appears Asset At {AssetNum + 1} Does Not Exist")
+    
     
     def BannedList(self,AssetNum):
-        AssetNum = AssetNum[0]
+        try:
+            AssetNum = int(AssetNum[0]) -1
 
-        BannedPaths = self.BannedPaths
-        Path = self.Paths[int(AssetNum) -1]
-        if Path in BannedPaths:
-            print("Path is Already in BannedList")
-            return()
-        
-        BannedPaths.append(Path)
-        BannedArray = {
-            "BannedPaths" : BannedPaths
-        }
-        self.UpdateBanList(BannedArray)
-        print(f"Added \033[1;34;40m{Path}\033[0m to BannedList")
+            BannedPaths = self.BannedPaths
+            Path = self.Paths[AssetNum]
+            if Path in BannedPaths:
+                print("Path is Already in BannedList")
+                return()
+            
+            BannedPaths.append(Path)
+            BannedArray = {
+                "BannedPaths" : BannedPaths
+            }
+            self.UpdateBanList(BannedArray)
+            print(f"Added \033[1;34;40m{Path}\033[0m to BannedList")
+        except IndexError as Exc:
+            print(f"It Appears Asset At {AssetNum + 1} Does Not Exist")
 
 
     def UpdateBanList(self,BannedArray):
