@@ -25,36 +25,43 @@ class MuTerminal():
         self.logger = logger
         self.MU = "\033[1;32;40m" + "𝝁" + "\033[0m"
         self.Assets = "Assets.json" # Add Location For Assets.json here
+        self.SetupAssets()
         self.Commands = { 
                          
             "help" : {"Description" : "Get Infomation for commands (This Command)","Syntax" : "help <Command>", "Method" : self.GetHelp},
             "update-all" : {"Description" : "Update all assets", "Syntax" : "update-all", "Method" : self.UpdateAll},
             "update" : {"Description" : "update specific assets", "Syntax" : "update <Asset>", "Method" : self.Update},
-            "list" : {"Description" : "List all assets from asset.json file", "Syntax" : "list", "Method" : self.ListAssets}
+            "list" : {"Description" : "List all assets from asset.json file", "Syntax" : "list", "Method" : self.ListAssets},
+            "asset" : {"Description" : "Get a specific asset", "Syntax" : "asset <AssetNum>", "Method" : self.GetAsset}
                          
                          }
+        
         
     def Interactive(self):
         """
         
         """        
         while True:
-            Command = input(f"{self.MU} ").lower()
-            if Command.lower in ["quit","exit"]:
+            Command = input(f"{self.MU} ").lower().split(" ")
+            if Command[0] in ["quit","exit"]:
                 quit()       
             else:
                 self.RunCommand(Command)
             
     def RunCommand(self,Command):
         try:
-            self.Commands.get(Command).get("Method")()
+            print("")
+            if len(Command) > 1:
+                self.Commands.get(Command[0]).get("Method")(Command[1])
+            else:
+                self.Commands.get(Command[0]).get("Method")()
+            print("")
             
         except Exception as Err:
-            self.logger.error(f"{Err} Detected")
+            self.logger.debug(f"{Err} Detected")
             print("Command Not Recognised ; use 'help' to see a list of commands")
         
     def GetHelp(self):
-        print("")
         Table = PrettyTable()
         Table.field_names = ["Command","Command Description","Syntax"]
         
@@ -66,7 +73,6 @@ class MuTerminal():
             Table.add_row([_,CommandInfo["Description"],CommandInfo["Syntax"]])
     
         print(Table)    
-        print("")
         
     def Update(self,Asset):
         print("")
@@ -74,12 +80,20 @@ class MuTerminal():
     def UpdateAll(self):
         print("")
         
-    def ListAssets(self):
+    def SetupAssets(self):    
         with open(self.Assets,"r") as f:
             Content = f.read()
-        self.JSON = json.loads(Content)
-        for _ in self.JSON["Paths"]:
-            print(f"    {_}")
+        self.JSON = json.loads(Content)["Paths"]
+        
+    def ListAssets(self):
+        for _ in enumerate(self.JSON,start=1):
+            c = _[0]
+            _ = _[1]
+            print(f"\033[1;32;40m   {str(c).zfill(2)} \033[0;34m{_}\033[0m")
+            
+    def GetAsset(self,AssetNum):
+            print(f"\033[1;32;40m   {str(AssetNum).zfill(2)} \033[0;34m{self.JSON[int(AssetNum) - 1]}\033[0m")
+    
         
 if __name__ == "__main__":
     if Args.A:
