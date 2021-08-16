@@ -36,4 +36,12 @@ if ".TempCommandOutput" in os.listdir(os.getcwd()):
         
     os.remove(".TempCommandOutput")
         
+    
+    with open(".Banned.json","w") as f:
+        JSON_Banned = {
+            "BannedPaths" : []
+        }
+        JSON_Banned = json.dumps(JSON_Banned,indent=4)
+        f.write(JSON_Banned)    
+    
     print("Created Assets.Json File, please manually remove any repositories which are not to be tracked")
