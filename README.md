@@ -2,7 +2,7 @@
 Git Management Utility for keeping repos up to date.
 
 <p align=center>
-  <img src="Git-MU.png" alt="My Shitty Logo :)" >
+  <img src="Git-MU_sm.png" alt="My Shitty Logo :)" >
 </p>
 
 # Recommended Implementation 
