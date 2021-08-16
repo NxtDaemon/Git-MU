@@ -12,14 +12,10 @@ DETAILED = logging.Formatter("%(asctime)-30s %(module)-15s %(levelname)-8s %func
 # Custom Logger
 logger = logging.getLogger(__name__)
 coloredlogs.install(logger=logger,level=logging.WARNING) # Change this for Debugging
-FileHandler = logging.FileHandler("Git-MU.log")
-FileHandler.setFormatter(DETAILED)
-logger.addHandler(FileHandler)
 
 # Argparse for easy scripting
 Parser = argparse.ArgumentParser()
 Parser.add_argument("-A",help="Automatically Update All Assets",action='store_true')
-
 Args = Parser.parse_args()
 
 class MuTerminal():
