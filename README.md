@@ -26,3 +26,28 @@ Git Management Utility for keeping repos up to date. written in python
 | banned     | List all banned assets                     | banned            |
 +------------+--------------------------------------------+-------------------+
 ```
+
+# Usage Example 
+```
+> python3 Git-MU.py
+𝝁 help
+
++------------+--------------------------------------------+-------------------+
+| Command    | Command Description                        | Syntax            |
++------------+--------------------------------------------+-------------------+
+| help       | Get Infomation for commands (This Command) | help              |
+| update-all | Update all assets                          | update-all        |
+| update     | update specific assets                     | update <AssetNum> |
+| list       | List all assets from asset.json file       | list              |
+| asset      | Get a specific asset                       | asset <AssetNum>  |
+| ban        | Add assets to a BannedList                 | ban <AssetNum>    |
+| banned     | List all banned assets                     | banned            |
++------------+--------------------------------------------+-------------------+
+
+𝝁 update-all
+
+Found 69 Already Updated Assets
+Updated 0 Assets
+Encountered 0 Warnings
+Encountered 0 Fatal Errors
+```
